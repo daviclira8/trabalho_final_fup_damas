@@ -14,7 +14,7 @@ Roger Levi Forte de Brito 601576
 #define casa_invalida '#';
 #define casa_vazia ' ';
 
-void inicializar_tabuleiro(char tabuleiro[10][10]);
-void imprimir_tabuleiro(char tabuleiro[10][10]);
+void inicializartabuleiro(char tabuleiro[10][10]);
+void imprimirtabuleiro(char tabuleiro[10][10]);
 
 #endif
