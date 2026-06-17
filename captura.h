@@ -4,11 +4,13 @@ Felipe Gabriel Sasaki 599549
 Roger Levi Forte de Brito 601576
 */
 
-#ifndef validacao_h
-#define validacao_h
+#ifndef captura_h
+#define captura_h
 
+extern char tabuleiro[10][10];
 
-int captura_possivel (char**, int);
+int captura_possivel (int);
 
+int jogada_eh_captura(char*);
 
 #endif
