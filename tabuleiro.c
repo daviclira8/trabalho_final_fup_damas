@@ -8,14 +8,13 @@ Roger Levi Forte de Brito 601576
 #include <stdlib.h>
 #include "tabuleiro.h"
 
-#define tamanho 10;
 
-char tabuleiro[tamanho][tamanho]; // tabuleiro como variável global
+char tabuleiro[10][10]; // tabuleiro como variável global
 
-void inicializartabuleiro(char tabuleiro[tamanho][tamanho]){ // função que inicializa o tabuleiro
+void inicializartabuleiro(char tabuleiro[10][10]){ // função que inicializa o tabuleiro
     int i, j;
-    for(i = 0; i < tamanho; i++){
-        for(j = 0; j < tamanho; j++){
+    for(i = 0; i < 10; i++){
+        for(j = 0; j < 10; j++){
             if((i + j) % 2 == 0){
                 if(i <= 2){
                     tabuleiro[i][j] = cima_normal;
@@ -31,17 +30,19 @@ void inicializartabuleiro(char tabuleiro[tamanho][tamanho]){ // função que ini
     }
 }
 
-void imprimirtabuleiro(){
+
+
+void imprimirtabuleiro(char tabuleiro[10][10]){
     int i, j;
     printf("  A B C D E F G H I J\n");
-    for(i = 0; i < tamanho; i++){
+    for(i = 0; i < 10; i++){
         printf(" +-+-+-+-+-+-+-+-+-+-+\n");
         printf("%d|", i);
-        for(j = 0; j < tamanho; j++){
+        for(j = 0; j < 10; j++){
             printf("%c|", tabuleiro[i][j]);
         }
-        printf("%d\n", i);
-        printf(" +-+-+-+-+-+-+-+-+-+-+\n");
-        printf("  A B C D E F G H I J\n");
+        printf("%d\n", i);    
     }
+    printf(" +-+-+-+-+-+-+-+-+-+-+\n");
+    printf("  A B C D E F G H I J\n");
 }
