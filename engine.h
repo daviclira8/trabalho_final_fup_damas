@@ -9,10 +9,7 @@ Roger Levi Forte de Brito 601576
 #include "tabuleiro.h"
 
 #define tam_tabuleiro 10
-//o typedef cria um apelido para um dado ja existente, para deixar o codigo mais legivel e facil de entender.
-typedef struct{
-    int lin, col;
-} coordenada;
+
 // Funções do integrante 2 (Roger)
 int validar_jogada(char tabuleiro[tam_tabuleiro][tam_tabuleiro], char *entrada, char jogadoratual, int modojogo, int linha_artigo);
 int ehposicaovalida(int lin, int col);
