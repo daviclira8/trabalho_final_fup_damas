@@ -54,9 +54,8 @@ int validar_jogada(char tabuleiro[tam_tabuleiro][tam_tabuleiro], char *entrada, 
         if(abs(linfim - linin) != 1) return 0;
         if(jogadoratual == 'C' && linfim < linin) return 0; // verificando se foi para frente ou para tras.
         if(jogadoratual == 'B' && linfim > linin) return 0;
-
     }
-    
+    return 1; //Se passou por todas as checagens e não caiu em nenhum return 0, a jogada é válida!
     
 }
 
@@ -67,5 +66,10 @@ int ehposicaovalida(int lin, int col){
     return 0;
 }
 void promoverpeca(char tabuleiro[tam_tabuleiro][tam_tabuleiro], int lin, int col){
-    
+    if(tabuleiro[lin][col] == cima_normal && lin == 9){
+        tabuleiro[lin][col] = cima_dama;
+    }
+    if(tabuleiro[lin][col] == baixo_normal && lin == 0){
+        tabuleiro[lin][col] = baixo_dama;
+    }
 }
