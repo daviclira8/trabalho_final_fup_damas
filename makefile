@@ -9,7 +9,7 @@ all: damas
 damas: main.o captura.o tabuleiro.o jogo.o engine.o
 	gcc main.o captura.o tabuleiro.o jogo.o engine.o -o damas
 
-main.o: main.c captura.h tabuleiro.h jogo.h engine.h
+main.o: main.c
 	gcc -Wall -Wextra -std=c99 -c main.c -o main.o
 
 captura.o: captura.c captura.h
