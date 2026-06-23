@@ -10,7 +10,7 @@ Roger Levi Forte de Brito 601576
 
 
 char tabuleiro[10][10]; // tabuleiro como variável global
-
+//Conversar com o sasaki sobre a linha 18, acredito que em vez de 0, seja 1.
 void inicializartabuleiro(char tabuleiro[10][10]){ // função que inicializa o tabuleiro
     int i, j;
     for(i = 0; i < 10; i++){
