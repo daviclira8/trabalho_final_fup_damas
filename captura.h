@@ -11,6 +11,6 @@ extern char tabuleiro[10][10];
 
 int captura_possivel (int);
 
-int jogada_eh_captura(char*);
+struct captura jogada_eh_captura(char*);
 
 #endif

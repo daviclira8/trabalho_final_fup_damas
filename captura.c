@@ -8,6 +8,11 @@ Roger Levi Forte de Brito 601576
 #include <stdlib.h>
 #include "tabuleiro.h"
 
+struct captura{
+    int booleano;
+    int linha_inimigo;
+    int coluna_inimigo;
+};
 
 
 //a função a seguir percorrerá todo o tabuleiro e irá verificar se tem alguma captura disponível para o jogador da vez
@@ -130,7 +135,7 @@ int captura_possivel(int jogador){
 //existe uma lógica para peças normais e uma para damas, haja vista que suas movimentações são diferentes
 //na dama é feito um loop para percorrer a diagonal indicada para validar
 //em peças normais basta checkar as 3 posicoes indicadas
-int jogada_eh_captura(char* jogada){
+struct captura jogada_eh_captura(char* jogada){
 
     int linha_inicial = jogada[0] - 'A';
     int coluna_inicial = jogada[1] - '0';
@@ -152,12 +157,12 @@ int jogada_eh_captura(char* jogada){
     int linha_atual;
     int coluna_atual;
 
+    struct captura retorno = {0};
+
     if(peca_inicial == cima_normal){
         if((peca_meio == baixo_normal || peca_meio == baixo_dama) && peca_final == ' '){
-            tabuleiro[(linha_final+linha_inicial)/2][(coluna_final+coluna_inicial)/2] = ' ';
-            tabuleiro[linha_inicial][coluna_inicial] = ' ';
-            tabuleiro[linha_final][coluna_final] = peca_inicial;
-            return 1;
+            retorno.booleano = 1;
+            return retorno;
         }
     }
     else if(peca_inicial == cima_dama){
@@ -180,7 +185,7 @@ int jogada_eh_captura(char* jogada){
             coluna_atual = coluna_inicial + (j * passos);
             peca_atual = tabuleiro[linha_atual][coluna_atual];
 
-            if(peca_atual == cima_dama || peca_atual == cima_normal) return 0;
+            if(peca_atual == cima_dama || peca_atual == cima_normal) return retorno;
 
             if(peca_atual == baixo_dama || peca_atual == baixo_normal){
                 inimigos++;
@@ -191,14 +196,17 @@ int jogada_eh_captura(char* jogada){
 
             if(peca_atual == ' ' && inimigos == 1){
                 if(linha_atual == linha_final && coluna_atual == coluna_final){
-                    tabuleiro[linha_inicial][coluna_inicial] = ' ';
-                    tabuleiro[linha_final][coluna_final] = peca_inicial;
-                    tabuleiro[linha_peca_inimiga][coluna_peca_inimiga] = ' ';
-                    return 1;
+                    retorno.booleano = 1;
+                    retorno.linha_inimigo = linha_peca_inimiga;
+                    retorno.coluna_inimigo = coluna_peca_inimiga;
+                    return retorno;
                 }
             } 
 
-            if(inimigos > 1) return 0;
+            if(inimigos > 1){
+                retorno.booleano = 0;
+                return retorno;
+            }
 
             passos++;
         }
@@ -206,10 +214,8 @@ int jogada_eh_captura(char* jogada){
 
     else if(peca_inicial == baixo_normal){
         if((peca_meio == cima_normal || peca_meio == cima_dama) && peca_final == ' '){
-            tabuleiro[(linha_final+linha_inicial)/2][(coluna_final+coluna_inicial)/2] = ' ';
-            tabuleiro[linha_inicial][coluna_inicial] = ' ';
-            tabuleiro[linha_final][coluna_final] = peca_inicial;
-            return 1;
+            retorno.booleano = 1;
+            return retorno;
         }
     }
     else{
@@ -229,7 +235,7 @@ int jogada_eh_captura(char* jogada){
             coluna_atual = coluna_inicial + (j * passos);
             peca_atual = tabuleiro[linha_atual][coluna_atual];
 
-            if(peca_atual == baixo_dama || peca_atual == baixo_normal) return 0;;
+            if(peca_atual == baixo_dama || peca_atual == baixo_normal) return retorno;
 
             if(peca_atual == cima_dama || peca_atual == cima_normal){
                 inimigos++;
@@ -240,17 +246,19 @@ int jogada_eh_captura(char* jogada){
 
             if(peca_atual == ' ' && inimigos == 1){
                 if(linha_atual == linha_final && coluna_atual == coluna_final){
-                    tabuleiro[linha_inicial][coluna_inicial] = ' ';
-                    tabuleiro[linha_final][coluna_final] = peca_inicial;
-                    tabuleiro[linha_peca_inimiga][coluna_peca_inimiga] = ' ';
-                    return 1;
+                    retorno.booleano = 1;
+                    retorno.linha_inimigo = linha_peca_inimiga;
+                    retorno.coluna_inimigo = coluna_peca_inimiga;
+                    return retorno;
                 }
             } 
 
-            if(inimigos > 1) return 0;
-
+            if(inimigos > 1){
+                retorno.booleano = 0;
+                return retorno;
+            }
             passos++;
         }
     }
-    return 0;
+    return retorno;
 }

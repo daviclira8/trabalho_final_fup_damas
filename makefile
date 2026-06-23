@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 all: damas
 
 damas: main.o captura.o tabuleiro.o jogo.o engine.o
@@ -18,3 +20,4 @@ jogo.o: jogo.c jogo.h
 clean:
 	rm -f *.o damas
 #Tem que ajeitar ainda depende de como os arquivos se entrelacarão
+>>>>>>> 2bb68577d06381f04bff2f8e1d00fe85e90f2526

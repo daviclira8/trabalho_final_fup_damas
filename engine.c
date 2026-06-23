@@ -3,8 +3,9 @@ Davi Carvalho Lira 605144
 Felipe Gabriel Sasaki 599549
 Roger Levi Forte de Brito 601576
 */
-
+#include "tabuleiro.h"
 #include "engine.h"
+#include "captura.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,7 +13,7 @@ Roger Levi Forte de Brito 601576
 //Essa função será responsável por validar as jogadas, verificando a sintaxe e o formato da entrada, validando as coordenadas, as peças e as regras de movimento. 
 //Declarar essas variaveis será util para transformar as entradas em algo legivel dentro de uma matriz 10x10.
 
-int validar_jogada(char tabuleiro[tam_tabuleiro][tam_tabuleiro], char *entrada, char jogadoratual, int modojogo, int linha_artigo){
+int validar_jogada(char *entrada, char jogadoratual){
     if(strlen(entrada) != 6) return 0;
     if(!(entrada[0] >= 'A' && entrada[0] <= 'J'
          && entrada[1] >= '0' && entrada[1] <= '9' 
@@ -60,16 +61,60 @@ int validar_jogada(char tabuleiro[tam_tabuleiro][tam_tabuleiro], char *entrada, 
 }
 
 int ehposicaovalida(int lin, int col){
-    if(lin >= 0 && lin <= tam_tabuleiro - 1 && col >= 0 && col <= tam_tabuleiro - 1){
+    if(lin >= 0 && lin <= 10 - 1 && col >= 0 && col <= 10 - 1){
         if((lin + col) % 2 == 1) return 1;
     }
     return 0;
 }
-void promoverpeca(char tabuleiro[tam_tabuleiro][tam_tabuleiro], int lin, int col){
+void promoverpeca(int lin, int col){
     if(tabuleiro[lin][col] == cima_normal && lin == 9){
         tabuleiro[lin][col] = cima_dama;
     }
     if(tabuleiro[lin][col] == baixo_normal && lin == 0){
         tabuleiro[lin][col] = baixo_dama;
+    }
+}
+
+//função feita para processar jogada por jogada de modo a enxutar a int main
+int jogada(char* entrada, int jogador){
+    int linha_inicial = entrada[0] - 'A';
+    int coluna_inicial = entrada[1] - '0';
+    int linha_final = entrada[4] - 'A';
+    int coluna_final = entrada[5] - '0';
+    struct captura jogada_ehcap_res = jogada_eh_captura(entrada);
+    
+    char peca_inicial = tabuleiro[linha_inicial][coluna_inicial];
+
+    //primeiramente, será realizada a validação da jogada indicada
+    if(validar_jogada(entrada, jogador) == 0){
+        printf("Jogada Inválida\ntente novamente:\n");
+        return 0;
+    }
+    if(captura_possivel(jogador) && jogada_ehcap_res.booleano != 1){
+        printf("Jogada Inválida\ntente novamente\n");
+        return 0;
+    }
+    //após essas checkagens, temos certeza que a jogada indicada é válida, logo, nos resta modificar o tabuleiro
+
+    if(jogada_ehcap_res.booleano == 1){
+        //processamento de capturas
+        if(peca_inicial == cima_normal || peca_inicial == baixo_normal){
+            tabuleiro[(linha_final+linha_inicial)/2][(coluna_final+coluna_inicial)/2] = ' ';
+            tabuleiro[linha_inicial][coluna_inicial] = ' ';
+            tabuleiro[linha_final][coluna_final] = peca_inicial;
+            return 1;
+        }
+        else{
+            tabuleiro[jogada_ehcap_res.linha_inimigo][jogada_ehcap_res.coluna_inimigo] = ' ';
+            tabuleiro[linha_inicial][coluna_inicial] = ' ';
+            tabuleiro[linha_final][coluna_final] = peca_inicial;
+            return 1;
+        }
+    }
+    else{
+        //processamento de jogadas normais
+        tabuleiro[linha_inicial][coluna_inicial] = ' ';
+        tabuleiro[linha_final][coluna_final] = peca_inicial;
+        return 1;
     }
 }
