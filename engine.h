@@ -6,14 +6,24 @@ Roger Levi Forte de Brito 601576
 
 #ifndef engine_h
 #define engine_h
-#include "tabuleiro.h"
 
-#define tam_tabuleiro 10
+extern int pecas_cima = 15;
+extern int pecas_baixo = 15;
+
+extern char tabuleiro[10][10];
+extern struct captura{
+    int booleano;
+    int linha_inimigo;
+    int coluna_inimigo;
+};
+
 
 // Funções do integrante 2 (Roger)
-int validar_jogada(char tabuleiro[tam_tabuleiro][tam_tabuleiro], char *entrada, char jogadoratual, int modojogo, int linha_artigo);
-int ehposicaovalida(int lin, int col);
-void promoverpeca(char tabuleiro[tam_tabuleiro][tam_tabuleiro], int lin, int col);
+int validar_jogada(char*, char);
+int ehposicaovalida(int, int);
+void promoverpeca(int, int);
+
+void jogada(char*, char);
 
 //Funções do integrante 3 que serão utéis ao código engine.c para a identificação de capturas possíveis.
 

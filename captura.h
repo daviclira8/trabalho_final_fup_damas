@@ -9,8 +9,8 @@ Roger Levi Forte de Brito 601576
 
 extern char tabuleiro[10][10];
 
-int captura_possivel (int);
+int captura_possivel (char);
 
-int jogada_eh_captura(char*);
+struct captura jogada_eh_captura(char*);
 
 #endif
