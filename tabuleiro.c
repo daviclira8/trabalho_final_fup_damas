@@ -15,7 +15,7 @@ void inicializartabuleiro(char tabuleiro[10][10]){ // função que inicializa o 
     int i, j;
     for(i = 0; i < 10; i++){
         for(j = 0; j < 10; j++){
-            if((i + j) % 2 == 0){
+            if((i + j) % 2 == 1){
                 if(i <= 2){
                     tabuleiro[i][j] = cima_normal;
                 }else if(i >= 7){
