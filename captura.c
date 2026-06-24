@@ -8,11 +8,6 @@ Roger Levi Forte de Brito 601576
 #include <stdlib.h>
 #include "tabuleiro.h"
 
-struct captura{
-    int booleano;
-    int linha_inimigo;
-    int coluna_inimigo;
-};
 
 
 //a função a seguir percorrerá todo o tabuleiro e irá verificar se tem alguma captura disponível para o jogador da vez
@@ -137,10 +132,10 @@ int captura_possivel(char jogador){
 //em peças normais basta checkar as 3 posicoes indicadas
 struct captura jogada_eh_captura(char* jogada){
 
-    int linha_inicial = jogada[0] - 'A';
-    int coluna_inicial = jogada[1] - '0';
-    int linha_final = jogada[4] - 'A';
-    int coluna_final = jogada[5] - '0';
+    int coluna_inicial = jogada[0] - 'A';
+    int linha_inicial = jogada[1] - '0';
+    int coluna_final = jogada[4] - 'A';
+    int linha_final = jogada[5] - '0';
     
     int inimigos = 0;
 

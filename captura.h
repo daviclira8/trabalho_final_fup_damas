@@ -8,6 +8,11 @@ Roger Levi Forte de Brito 601576
 #define captura_h
 
 extern char tabuleiro[10][10];
+struct captura {
+    int booleano;
+    int linha_inimigo;
+    int coluna_inimigo;
+};
 
 int captura_possivel (char);
 

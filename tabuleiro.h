@@ -7,6 +7,8 @@ Roger Levi Forte de Brito 601576
 #ifndef TABULEIRO_H
 #define TABULEIRO_H
 
+extern char tabuleiro[10][10];
+
 #define cima_normal 'o'
 #define cima_dama 'O'
 #define baixo_normal '@'
@@ -15,6 +17,6 @@ Roger Levi Forte de Brito 601576
 #define casa_vazia ' '
 
 void inicializartabuleiro(char tabuleiro[10][10]);
-void imprimirtabuleiro(char tabuleiro[10][10]);
+void imprimirtabuleiro();
 
 #endif

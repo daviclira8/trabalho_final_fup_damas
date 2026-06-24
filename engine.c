@@ -56,10 +56,14 @@ int validar_jogada(char *entrada, char jogadoratual){
             j = j + passo_col;
         }
     }else{
-        if(abs(linfim - linin) != 1) return 0;
+        if(abs(linfim - linin) != 1 && abs(linfim-linin) != 2) return 0;
         if(jogadoratual == 'C' && linfim < linin) return 0; // verificando se foi para frente ou para tras.
         if(jogadoratual == 'B' && linfim > linin) return 0;
     }
+
+    /*
+    Precisa fazer função para verificar se a peça está voltando para trás sem estar capturando outra
+    */
     return 1; //Se passou por todas as checagens e não caiu em nenhum return 0, a jogada é válida!
     
 }
@@ -81,10 +85,10 @@ void promoverpeca(int lin, int col){
 
 //função feita para processar jogada por jogada de modo a enxutar a int main
 int jogada(char* entrada, char jogador){
-    int linha_inicial = entrada[0] - 'A';
-    int coluna_inicial = entrada[1] - '0';
-    int linha_final = entrada[4] - 'A';
-    int coluna_final = entrada[5] - '0';
+    int coluna_inicial = entrada[0] - 'A';
+    int linha_inicial = entrada[1] - '0';
+    int coluna_final = entrada[4] - 'A';
+    int linha_final = entrada[5] - '0';
     int i;
     struct captura jogada_ehcap_res = jogada_eh_captura(entrada);
     
@@ -92,11 +96,9 @@ int jogada(char* entrada, char jogador){
 
     //primeiramente, será realizada a validação da jogada indicada
     if(validar_jogada(entrada, jogador) == 0){
-        printf("Jogada Inválida\ntente novamente:\n");
         return 0;
     }
     if(captura_possivel(jogador) && jogada_ehcap_res.booleano != 1){
-        printf("Jogada Inválida\ntente novamente\n");
         return 0;
     }
     //após essas checkagens, temos certeza que a jogada indicada é válida, logo, nos resta modificar o tabuleiro

@@ -8,9 +8,8 @@ Roger Levi Forte de Brito 601576
 #include <stdlib.h>
 #include "tabuleiro.h"
 
-
 char tabuleiro[10][10]; // tabuleiro como variável global
-//Conversar com o sasaki sobre a linha 18, acredito que em vez de 0, seja 1.
+
 void inicializartabuleiro(char tabuleiro[10][10]){ // função que inicializa o tabuleiro
     int i, j;
     for(i = 0; i < 10; i++){
@@ -32,7 +31,7 @@ void inicializartabuleiro(char tabuleiro[10][10]){ // função que inicializa o 
 
 
 
-void imprimirtabuleiro(char tabuleiro[10][10]){
+void imprimirtabuleiro(){
     int i, j;
     printf("  A B C D E F G H I J\n");
     for(i = 0; i < 10; i++){

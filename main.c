@@ -16,6 +16,8 @@ int main(int narg, char *argv[]){
     int i;
     char entrada[7];
     char jogador;
+    int resultado;
+    int invalido;
     
     if(narg == 1){
         inicializartabuleiro(tabuleiro);
@@ -27,13 +29,21 @@ int main(int narg, char *argv[]){
             #else
                 system("clear");
             #endif
+            if(invalido == 1){
+                printf("Jogada invalida!\nTente novamente\n");
+            }
             printf("Assim está o tabuleiro atualmente:\n");
             imprimirtabuleiro(tabuleiro);
-            printf("Lembre-se de utilizar o seguinte formato de entrada: <linha_inicial><coluna_inicial>--<linha_final><coluna_final>\n");
+            printf("Utilize as letras em maiusculo\n");
+            printf("Lembre-se de utilizar o seguinte formato de entrada: <coluna_inicial><linha_inicial>--<coluna_final><linha_final>\n");
+            printf("O jogador de cima ainda tem %d peca(s)\n", pecas_cima);
+            printf("O jogador de baixo ainda tem %d peca(s)\n", pecas_baixo);
             printf("Agora eh a vez do jogador %c\nDigite a seguir a Jogada desejada: ", jogador);
-            scanf("%s", &entrada);
-            jogada(entrada, jogador);
-            if(jogada == 0){
+            scanf("%s", entrada);
+            resultado = jogada(entrada, jogador);
+            invalido = 0;
+            if(resultado == 0){
+                invalido = 1;
                 continue;
             }
             else{
@@ -63,7 +73,7 @@ void modo_offline(char tab[10][10], const char *entrada){
     FILE *arquivo = fopen(entrada, "rt");
     if(arquivo == NULL){ /*Verificação na leitura do arquivo*/                             
         printf("Erro na abertura de arquivo\n");
-        return EXIT_FAILURE;
+        return;
     }
 
     if(fgets(linha, sizeof(linha), arquivo) != NULL){ /*Lê a primeira linha para saber quem começa*/
@@ -72,13 +82,13 @@ void modo_offline(char tab[10][10], const char *entrada){
         linha[strcspn(linha, "\n")] = 0; /*Remove quebras de linha*/
 
         if(strcmp(linha, "C") == 0)
-            turno_atual == 'C';
+            turno_atual = 'C';
         else if(strcmp(linha, "B") == 0)
-            turno_atual == 'B';
+            turno_atual = 'B';
         else{
             printf("Formato inicial invalido\n");
             fclose(arquivo);
-            return EXIT_FAILURE;
+            return;
         }
     }
 
