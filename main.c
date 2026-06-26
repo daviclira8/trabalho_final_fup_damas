@@ -113,10 +113,10 @@ void modo_offline(const char *entrada){
         printf("\n=========================================\n");
         printf("Executando jogada de linha: %d, (Turno: %c) -> %s\n", numero_linha, turno_atual, linha);
 
-        // 1. Guarda se a jogada pretendida é uma captura antes de processar
+        //Guarda se a jogada pretendida é uma captura antes de processar
         captura = jogada_eh_captura(linha).booleano;
 
-        // 2. Executa a jogada através do motor de jogo (valida e atualiza a matriz do tabuleiro)
+        //Executa a jogada através do motor de jogo (valida e atualiza a matriz do tabuleiro)
         resultado = jogada(linha, turno_atual);
 
         if(resultado == 0){
@@ -125,15 +125,13 @@ void modo_offline(const char *entrada){
             return;
         }
 
-        // 3. Imprime o tabuleiro atualizado após o movimento bem-sucedido
+        //Imprime o tabuleiro atualizado após o movimento bem-sucedido
         imprimirtabuleiro();
         printf("Pecas restantes - Cima: %d | Baixo: %d\n", pecas_cima, pecas_baixo);
 
-        // 4. Alterna o turno baseado nas regras definidas por vocês no modo online
+        /*Alterna o turno */
         if(captura == 1){
             printf("Foi uma captura! O turno continua com o jogador %c.\n", turno_atual);
-            // Segue a lógica da sua main: se houver mais capturas subsequentes no arquivo,
-            // o turno continuará pertencendo a ele na próxima linha.
             continue; 
         } else {
             turno_atual = (turno_atual == 'B') ? 'C' : 'B';
