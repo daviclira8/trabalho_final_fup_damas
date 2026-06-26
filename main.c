@@ -74,10 +74,12 @@ void modo_offline(const char *entrada){
     char linha[256];
     int numero_linha = 0;
     char turno_atual = ' ';
+    int resultado;
+    int captura;
     
     FILE *arquivo = fopen(entrada, "rt");
     if(arquivo == NULL){ /*Verificação na leitura do arquivo*/                             
-        printf("Erro na abertura de arquivo\n");
+        printf("Erro na abertura de arquivo: %s\n", entrada);
         return;
     }
 
@@ -98,7 +100,7 @@ void modo_offline(const char *entrada){
     }
 
     printf("Tabuleiro inicial:\n");
-    imprimirtabuleiro(tabuleiro);
+    imprimirtabuleiro();
 
     while(fgets(linha, sizeof(linha), arquivo) != NULL){
         numero_linha++;
@@ -108,15 +110,47 @@ void modo_offline(const char *entrada){
         if(strlen(linha) == 0) /*Verifica se a linha está vazia*/
             continue;
         
-        printf("Executando jogada de linha: %d, (Turno: %c)", numero_linha, turno_atual);
+        printf("\n=========================================\n");
+        printf("Executando jogada de linha: %d, (Turno: %c) -> %s\n", numero_linha, turno_atual, linha);
 
-        if(validar_jogada(linha, turno_atual) == 0){
-            printf("Jogada invalida na linha %d.\nFinalizando jogo!\n", numero_linha);
+        // 1. Guarda se a jogada pretendida é uma captura antes de processar
+        captura = jogada_eh_captura(linha).booleano;
+
+        // 2. Executa a jogada através do motor de jogo (valida e atualiza a matriz do tabuleiro)
+        resultado = jogada(linha, turno_atual);
+
+        if(resultado == 0){
+            printf("Jogada invalida detectada na linha %d do arquivo.\nFinalizando jogo offline!\n", numero_linha);
             fclose(arquivo);
-            break;
+            return;
+        }
+
+        // 3. Imprime o tabuleiro atualizado após o movimento bem-sucedido
+        imprimirtabuleiro();
+        printf("Pecas restantes - Cima: %d | Baixo: %d\n", pecas_cima, pecas_baixo);
+
+        // 4. Alterna o turno baseado nas regras definidas por vocês no modo online
+        if(captura == 1){
+            printf("Foi uma captura! O turno continua com o jogador %c.\n", turno_atual);
+            // Segue a lógica da sua main: se houver mais capturas subsequentes no arquivo,
+            // o turno continuará pertencendo a ele na próxima linha.
+            continue; 
+        } else {
+            turno_atual = (turno_atual == 'B') ? 'C' : 'B';
         }
     }
 
+    printf("\n=========================================\n");
+    printf("Fim do arquivo alcancado com sucesso!\n");
+    
+    // 5. Determinar o vencedor no fim do arquivo se um dos lados perdeu tudo
+    if (pecas_cima == 0) {
+        printf("O jogador de BAIXO (B) venceu!\n");
+    } else if (pecas_baixo == 0) {
+        printf("O jogador de CIMA (C) venceu!\n");
+    } else {
+        printf("Partida interrompida ou incompleta no arquivo.\n");
+    }
 
+    fclose(arquivo);
 }
-
