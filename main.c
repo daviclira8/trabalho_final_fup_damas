@@ -33,7 +33,7 @@ int main(int narg, char *argv[]){
                 printf("Jogada invalida!\nTente novamente\n");
             }
             printf("Assim está o tabuleiro atualmente:\n");
-            imprimirtabuleiro(tabuleiro);
+            imprimirtabuleiro();
             printf("Utilize as letras em maiusculo\n");
             printf("Lembre-se de utilizar o seguinte formato de entrada: <coluna_inicial><linha_inicial>--<coluna_final><linha_final>\n");
             printf("O jogador de cima ainda tem %d peca(s)\n", pecas_cima);
