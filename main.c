@@ -69,10 +69,12 @@ void modo_offline(char tab[10][10], const char *entrada){
     char linha[256];
     int numero_linha = 0;
     char turno_atual = ' ';
+    int resultado;
+    int captura;
     
     FILE *arquivo = fopen(entrada, "rt");
     if(arquivo == NULL){ /*Verificação na leitura do arquivo*/                             
-        printf("Erro na abertura de arquivo\n");
+        printf("Erro na abertura de arquivo: %s\n", entrada);
         return;
     }
 
@@ -93,7 +95,7 @@ void modo_offline(char tab[10][10], const char *entrada){
     }
 
     printf("Tabuleiro inicial:\n");
-    imprimirtabuleiro(tabuleiro);
+    imprimirtabuleiro(); // CORRIGIDO: Sem passar parâmetro aqui
 
     while(fgets(linha, sizeof(linha), arquivo) != NULL){
         numero_linha++;
@@ -103,15 +105,28 @@ void modo_offline(char tab[10][10], const char *entrada){
         if(strlen(linha) == 0) /*Verifica se a linha está vazia*/
             continue;
         
-        printf("Executando jogada de linha: %d, (Turno: %c)", numero_linha, turno_atual);
+        printf("\n=========================================\n");
+        printf("Executando jogada de linha: %d, (Turno: %c) -> %s\n", numero_linha, turno_atual, linha);
 
-        if(validar_jogada(linha, turno_atual) == 0){
+        captura = jogada_eh_captura(linha).booleano;
+        resultado = jogada(linha, turno_atual);
+
+        if(resultado == 0){
             printf("Jogada invalida na linha %d.\nFinalizando jogo!\n", numero_linha);
             fclose(arquivo);
-            break;
+            return;
+        }
+
+        imprimirtabuleiro(); // CORRIGIDO: Sem passar parâmetro aqui
+        printf("Pecas restantes - Cima: %d | Baixo: %d\n", pecas_cima, pecas_baixo);
+
+        if(captura == 1){
+            printf("Foi uma captura! O turno continua com %c.\n", turno_atual);
+            continue; 
+        } else {
+            turno_atual = (turno_atual == 'B') ? 'C' : 'B';
         }
     }
 
-
+    fclose(arquivo);
 }
-
