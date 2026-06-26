@@ -223,12 +223,16 @@ struct captura jogada_eh_captura(char* jogada){
         if(coluna_final - coluna_inicial > 0) j = 1;
         else if (coluna_final - coluna_inicial < 0) j = -1;
 
+        linha_atual = linha_inicial + (i * passos);
+        coluna_atual = coluna_inicial + (j * passos);
+
         while(linha_atual >= 0 && linha_atual < 10){
             if(coluna_atual < 0 || coluna_atual >= 10) break;
                             
             linha_atual = linha_inicial + (i * passos);
             coluna_atual = coluna_inicial + (j * passos);
             peca_atual = tabuleiro[linha_atual][coluna_atual];
+
 
             if(peca_atual == baixo_dama || peca_atual == baixo_normal) return retorno;
 
@@ -257,3 +261,6 @@ struct captura jogada_eh_captura(char* jogada){
     }
     return retorno;
 }
+/*
+erro na captura com damas
+*/

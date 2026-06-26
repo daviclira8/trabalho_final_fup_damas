@@ -49,21 +49,21 @@ int validar_jogada(char *entrada, char jogadoratual){
 
         int i = linin + passo_lin;
         int j = colin + passo_col;
-
-        while(i != linfim){
-            if(tabuleiro[i][j] != casa_vazia) return 0;
-            i = i + passo_lin;
-            j = j + passo_col;
+        if(jogada_eh_captura(entrada).booleano != 1){
+            while(i != linfim){
+                if(tabuleiro[i][j] == casa_vazia) return 0;
+                i = i + passo_lin;
+                j = j + passo_col;
+            }
         }
+        
     }else{
         if(abs(linfim - linin) != 1 && abs(linfim-linin) != 2) return 0;
         if(jogadoratual == 'C' && linfim < linin) return 0; // verificando se foi para frente ou para tras.
         if(jogadoratual == 'B' && linfim > linin) return 0;
     }
 
-    /*
-    Precisa fazer função para verificar se a peça está voltando para trás sem estar capturando outra
-    */
+    
     return 1; //Se passou por todas as checagens e não caiu em nenhum return 0, a jogada é válida!
     
 }
@@ -89,7 +89,7 @@ int jogada(char* entrada, char jogador){
     int linha_inicial = entrada[1] - '0';
     int coluna_final = entrada[4] - 'A';
     int linha_final = entrada[5] - '0';
-    int i;
+
     struct captura jogada_ehcap_res = jogada_eh_captura(entrada);
     
     char peca_inicial = tabuleiro[linha_inicial][coluna_inicial];
@@ -103,16 +103,14 @@ int jogada(char* entrada, char jogador){
     }
     //após essas checkagens, temos certeza que a jogada indicada é válida, logo, nos resta modificar o tabuleiro
 
-    for(i = 0; i < 10; i++){
-        promoverpeca(0, i);
-        promoverpeca(9,i);
-    }
+    
     if(jogada_ehcap_res.booleano == 1){
         //processamento de capturas
         if(peca_inicial == cima_normal || peca_inicial == baixo_normal){
             tabuleiro[(linha_final+linha_inicial)/2][(coluna_final+coluna_inicial)/2] = ' ';
             tabuleiro[linha_inicial][coluna_inicial] = ' ';
             tabuleiro[linha_final][coluna_final] = peca_inicial;
+            promoverpeca(linha_final, coluna_final);
             if(peca_inicial == cima_normal) pecas_baixo--;
             else pecas_cima--;
             return 1;
@@ -121,6 +119,7 @@ int jogada(char* entrada, char jogador){
             tabuleiro[jogada_ehcap_res.linha_inimigo][jogada_ehcap_res.coluna_inimigo] = ' ';
             tabuleiro[linha_inicial][coluna_inicial] = ' ';
             tabuleiro[linha_final][coluna_final] = peca_inicial;
+            promoverpeca(linha_final, coluna_final);
             if(peca_inicial == cima_dama) pecas_baixo--;
             else pecas_cima--;
             return 1;
@@ -130,6 +129,9 @@ int jogada(char* entrada, char jogador){
         //processamento de jogadas normais
         tabuleiro[linha_inicial][coluna_inicial] = ' ';
         tabuleiro[linha_final][coluna_final] = peca_inicial;
+        promoverpeca(linha_final, coluna_final);
         return 1;
     }
+    //checkagem de damas
+    
 }
