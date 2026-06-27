@@ -89,9 +89,9 @@ int jogada(char* entrada, char jogador){
     int coluna_final = entrada[4] - 'A';
     int linha_final = entrada[5] - '0';
 
-    struct captura jogada_ehcap_res = jogada_eh_captura(entrada);
+    struct captura jogada_ehcap_res = jogada_eh_captura(entrada); // Chama a função do integrante 3 para verificar uma captura.
     
-    char peca_inicial = tabuleiro[linha_inicial][coluna_inicial];
+    char peca_inicial = tabuleiro[linha_inicial][coluna_inicial]; // Guarda a peça da origem.
 
     //primeiramente, será realizada a validação da jogada indicada
     if(validar_jogada(entrada, jogador) == 0){
@@ -99,22 +99,22 @@ int jogada(char* entrada, char jogador){
     }
     if(captura_possivel(jogador) && jogada_ehcap_res.booleano != 1){
         return 0;
-    }
+    } // Checa se existe captura disponivel e se a jogada executada foi uma captura.
     //após essas checkagens, temos certeza que a jogada indicada é válida, logo, nos resta modificar o tabuleiro
 
     
     if(jogada_ehcap_res.booleano == 1){
         //processamento de capturas
-        if(peca_inicial == cima_normal || peca_inicial == baixo_normal){
-            tabuleiro[(linha_final+linha_inicial)/2][(coluna_final+coluna_inicial)/2] = ' ';
-            tabuleiro[linha_inicial][coluna_inicial] = ' ';
-            tabuleiro[linha_final][coluna_final] = peca_inicial;
-            promoverpeca(linha_final, coluna_final);
-            if(peca_inicial == cima_normal) pecas_baixo--;
+        if(peca_inicial == cima_normal || peca_inicial == baixo_normal){ // captura de peça normal.
+            tabuleiro[(linha_final+linha_inicial)/2][(coluna_final+coluna_inicial)/2] = ' '; // A peça inimiga capturada esta exatamente no meio do caminho. E vira um espaço vazio.
+            tabuleiro[linha_inicial][coluna_inicial] = ' '; // Limpa a origem.
+            tabuleiro[linha_final][coluna_final] = peca_inicial; // Move a peça para o destino.
+            promoverpeca(linha_final, coluna_final); // Verifica se deve virar dama.
+            if(peca_inicial == cima_normal) pecas_baixo--; //Atualiza o contador de peças de quem perdeu uma peça.
             else pecas_cima--;
             return 1;
         }
-        else{
+        else{// Captura realizada por uma dama. Como a dama captura a qualquer distancia usamos a posicao do inimigo calculada a partir do jogada_eh_captura.
             tabuleiro[jogada_ehcap_res.linha_inimigo][jogada_ehcap_res.coluna_inimigo] = ' ';
             tabuleiro[linha_inicial][coluna_inicial] = ' ';
             tabuleiro[linha_final][coluna_final] = peca_inicial;
@@ -134,8 +134,8 @@ int jogada(char* entrada, char jogador){
 }
 
 /*
-A seguinte função cumprirá com o requisito U.17 precorrendo o tabuleiro procurando peças do jogador informado
-ao encontrar essas peças, checkara as diagonais e as possiveis jogadas.
+A seguinte função cumprirá com o requisito U.17 percorrendo o tabuleiro procurando peças do jogador informado
+ao encontrar essas peças, checkara as diagonais e as possiveis jogadas. Verifica se ainda existem jogadas possiveis, capturas ou movimentos simples, também usadas para determinar fim de jogo por bloqueio.
 */
 int existe_jogada_valida(char jogador){
     //lógica muito similar à da funçao captura_possivel
@@ -143,10 +143,10 @@ int existe_jogada_valida(char jogador){
     //logo nos resta somente verificar as proximidades
     int i, j;
     
-    if(captura_possivel(jogador)) return 1;
-    if(jogador == 'C'){
-        for(i = 0; i < 10; i++){
-            for(j = 0; j < 10; j++){
+    if(captura_possivel(jogador)) return 1; // Se existe captura possivel, o jogador tem jogada validada.
+    if(jogador == 'C'){ // Procura peças do jogador de cima.
+        for(i = 0; i < 10; i++){ // Roger: Essa verifição pode acessar Limites fora do tabuleiro. Exemplo: i = 0 ou j = 9. É melhor utlizar ehposicaovalida. Discutir isso depois.
+            for(j = 0; j < 10; j++){ // Verifica as quatro diagonais adjacentes. Perguntar ao Davi pq ele verifica as diagonais de trás também.
                 if(tabuleiro[i][j] == cima_normal || tabuleiro[i][j] == cima_dama){
                     if(tabuleiro[i+1][j+1] == casa_vazia){
                         return 1;
@@ -164,7 +164,7 @@ int existe_jogada_valida(char jogador){
             }
         }
     }
-    else{
+    else{ // Procura peças do jogador de baixo.
         for(i = 0; i < 10; i++){
             for(j = 0; j < 10; j++){
                 if(tabuleiro[i][j] == baixo_normal || tabuleiro[i][j] == baixo_dama){
