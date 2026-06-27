@@ -16,10 +16,10 @@ int main(int narg, char *argv[]){
     int i, resultado, invalido, captura;
     char entrada[7];
     char jogador;
-    int pecas_baixo, pecas_cima;
     
     if(narg == 1){
         i=1;
+        invalido = 0;
         //loop p ficar jogando até o usuario indicar que não.
         while(i == 1){
             //inicialização de variaveis 
@@ -155,7 +155,7 @@ void modo_offline(const char *entrada){
         resultado = jogada(linha, turno_atual);
 
         if(resultado == 0){
-            printf("Jogada invalida detectada na linha %d do arquivo.\nFinalizando jogo offline!\n", numero_linha);
+            printf("Jogada invalida na linha %d do arquivo de entrada.\nFinalizando jogo offline!\n", numero_linha);
             fclose(arquivo);
             return;
         }

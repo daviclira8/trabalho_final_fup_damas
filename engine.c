@@ -11,6 +11,8 @@ Roger Levi Forte de Brito 601576
 #include <string.h>
 
 
+int pecas_baixo, pecas_cima;
+
 //Essa função será responsável por validar as jogadas, verificando a sintaxe e o formato da entrada, validando as coordenadas, as peças e as regras de movimento. 
 //Declarar essas variaveis será util para transformar as entradas em algo legivel dentro de uma matriz 10x10.
 // Essa função retorna 0 ou 1, a cada verificação, ela pode retornar 0, encerrando toda a checagem e imprimindo que a jogada não foi válida. 
