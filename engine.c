@@ -10,9 +10,6 @@ Roger Levi Forte de Brito 601576
 #include <stdlib.h>
 #include <string.h>
 
-//variaveis para contabilizar a quantidade de peças que faltam
-int pecas_cima = 15;
-int pecas_baixo = 15;
 
 //Essa função será responsável por validar as jogadas, verificando a sintaxe e o formato da entrada, validando as coordenadas, as peças e as regras de movimento. 
 //Declarar essas variaveis será util para transformar as entradas em algo legivel dentro de uma matriz 10x10.
@@ -51,7 +48,7 @@ int validar_jogada(char *entrada, char jogadoratual){
         int j = colin + passo_col;
         if(jogada_eh_captura(entrada).booleano != 1){
             while(i != linfim){
-                if(tabuleiro[i][j] == casa_vazia) return 0;
+                if(tabuleiro[i][j] != casa_vazia) return 0;
                 i = i + passo_lin;
                 j = j + passo_col;
             }
@@ -67,13 +64,14 @@ int validar_jogada(char *entrada, char jogadoratual){
     return 1; //Se passou por todas as checagens e não caiu em nenhum return 0, a jogada é válida!
     
 }
-// Verifica se a posição é válida.
+// Verifica se a posição é válida, de acordo com os requisitos informados no termo U.14.
 int ehposicaovalida(int lin, int col){
     if(lin >= 0 && lin <= 10 - 1 && col >= 0 && col <= 10 - 1){
         if((lin + col) % 2 == 1) return 1;
     }
     return 0;
 }
+//função que cumpre com o requisito u.5
 void promoverpeca(int lin, int col){
     if(tabuleiro[lin][col] == cima_normal && lin == 9){
         tabuleiro[lin][col] = cima_dama;
@@ -83,7 +81,8 @@ void promoverpeca(int lin, int col){
     }
 }
 
-//função feita para processar jogada por jogada de modo a diminuir a int main
+//função feita para processar jogada por jogada
+//Facilitando, desse modo, a produção dos dois modos de jogo
 int jogada(char* entrada, char jogador){
     int coluna_inicial = entrada[0] - 'A';
     int linha_inicial = entrada[1] - '0';
@@ -131,7 +130,59 @@ int jogada(char* entrada, char jogador){
         tabuleiro[linha_final][coluna_final] = peca_inicial;
         promoverpeca(linha_final, coluna_final);
         return 1;
-    }
-    //checkagem de damas
+    } 
+}
+
+/*
+A seguinte função cumprirá com o requisito U.17 precorrendo o tabuleiro procurando peças do jogador informado
+ao encontrar essas peças, checkara as diagonais e as possiveis jogadas.
+*/
+int existe_jogada_valida(char jogador){
+    //lógica muito similar à da funçao captura_possivel
+    //contudo a logica da dama é igual à da peca normal, haja vista que a funcao citada acima já percorre a diagonal toda procurando jogada válida
+    //logo nos resta somente verificar as proximidades
+    int i, j;
     
+    if(captura_possivel(jogador)) return 1;
+    if(jogador == 'C'){
+        for(i = 0; i < 10; i++){
+            for(j = 0; j < 10; j++){
+                if(tabuleiro[i][j] == cima_normal || tabuleiro[i][j] == cima_dama){
+                    if(tabuleiro[i+1][j+1] == casa_vazia){
+                        return 1;
+                    }
+                    else if(tabuleiro[i+1][j-1] == casa_vazia){
+                        return 1;
+                    }
+                    else if(tabuleiro[i-1][j+1] == casa_vazia){
+                        return 1;
+                    }
+                    else if(tabuleiro[i-1][j-1] == casa_vazia){
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    else{
+        for(i = 0; i < 10; i++){
+            for(j = 0; j < 10; j++){
+                if(tabuleiro[i][j] == baixo_normal || tabuleiro[i][j] == baixo_dama){
+                    if(tabuleiro[i+1][j+1] == casa_vazia){
+                        return 1;
+                    }
+                    else if(tabuleiro[i+1][j-1] == casa_vazia){
+                        return 1;
+                    }
+                    else if(tabuleiro[i-1][j+1] == casa_vazia){
+                        return 1;
+                    }
+                    else if(tabuleiro[i-1][j-1] == casa_vazia){
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
 }

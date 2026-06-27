@@ -20,5 +20,6 @@ int ehposicaovalida(int, int);
 void promoverpeca(int, int);
 
 int jogada(char*, char);
+int existe_jogada_valida(char);
 
 #endif
