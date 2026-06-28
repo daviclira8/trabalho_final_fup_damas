@@ -25,9 +25,11 @@ int main(int narg, char *argv[]){
             pecas_baixo = 15;
             pecas_cima = 15;
             inicializartabuleiro(tabuleiro);
-            printf("Qual jogador ira comecar jogando?\nSendo B o de baixo e C o de cima\n");
-            scanf("%c", &jogador);
-
+            jogador = ' ';
+            while(jogador != 'B' && jogador != 'C'){
+                printf("Qual jogador ira comecar jogando?\nSendo B o de baixo e C o de cima\n");
+                scanf(" %c", &jogador);
+            }
             while(pecas_baixo > 0 && pecas_cima > 0){
                 //checkagem se existe jogada valida
                 if(existe_jogada_valida(jogador) == 0){
@@ -109,13 +111,13 @@ int main(int narg, char *argv[]){
 void modo_offline(const char *entrada){
     // Definições e variáveis globais assumidas do seu motor de jogo
     #define TOTAL_PECAS_INICIAL 30
-    int pecas_cima;
-    int pecas_baixo;
     char linha[256];
     int numero_linha = 0;
     char turno_atual = ' ';
     int resultado;
     int captura;
+    pecas_baixo = 15;
+    pecas_cima = 15;
     
     FILE *arquivo = fopen(entrada, "rt");
     if(arquivo == NULL){                         
