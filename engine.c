@@ -51,7 +51,7 @@ int validar_jogada(char *entrada, char jogadoratual){
         int j = colin + passo_col;
         if(jogada_eh_captura(entrada).booleano != 1){
             while(i != linfim){
-                if(tabuleiro[i][j] == casa_vazia) return 0;
+                if(tabuleiro[i][j] != casa_vazia) return 0;
                 i = i + passo_lin;
                 j = j + passo_col;
             }
@@ -67,7 +67,7 @@ int validar_jogada(char *entrada, char jogadoratual){
     return 1; //Se passou por todas as checagens e não caiu em nenhum return 0, a jogada é válida!
     
 }
-
+// Verifica se a posição é válida, de acordo com os requisitos informados no termo U.14.
 int ehposicaovalida(int lin, int col){
     if(lin >= 0 && lin <= 10 - 1 && col >= 0 && col <= 10 - 1){
         if((lin + col) % 2 == 1) return 1;
@@ -131,7 +131,5 @@ int jogada(char* entrada, char jogador){
         tabuleiro[linha_final][coluna_final] = peca_inicial;
         promoverpeca(linha_final, coluna_final);
         return 1;
-    }
-    //checkagem de damas
-    
+    }    
 }
