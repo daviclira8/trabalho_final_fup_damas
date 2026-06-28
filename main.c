@@ -16,10 +16,9 @@ int main(int narg, char *argv[]){
     int i, resultado, invalido, captura;
     char entrada[7];
     char jogador;
-    
+       
     if(narg == 1){
         i=1;
-        invalido = 0;
         //loop p ficar jogando até o usuario indicar que não.
         while(i == 1){
             //inicialização de variaveis 
