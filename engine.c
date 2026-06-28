@@ -37,7 +37,8 @@ int validar_jogada(char *entrada, char jogadoratual){
     
     if(jogadoratual == 'C' && tabuleiro[linin][colin] != cima_normal && tabuleiro[linin][colin] != cima_dama) return 0;
     if(jogadoratual == 'B' && tabuleiro[linin][colin] != baixo_normal && tabuleiro[linin][colin] != baixo_dama) return 0;
-    
+    // Olha se a casa está vazia e se a linha de entrada é igual a da saída.
+
     if(tabuleiro[linfim][colfim] != casa_vazia) return 0;
     if(linin == linfim && colin == colfim) return 0;
 

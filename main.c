@@ -123,6 +123,7 @@ void modo_offline(const char *entrada){
         return;
     }
 
+
     if(fgets(linha, sizeof(linha), arquivo) != NULL){ /*Lê a primeira linha para saber quem começa*/
         numero_linha++;
 
