@@ -124,8 +124,7 @@ void modo_offline(const char *entrada){
         return;
     }
 
-    /* Lê a primeira linha e valida o jogador inicial */
-    if(fgets(linha, sizeof(linha), arquivo) != NULL){
+    if(fgets(linha, sizeof(linha), arquivo) != NULL){ /*Lê a primeira linha para saber quem começa*/
         numero_linha++;
 
         linha[strcspn(linha, "\r\n")] = 0; /* Remove quebras de linha (\n e \r) */
@@ -161,8 +160,9 @@ void modo_offline(const char *entrada){
 
         /* - Caso a jogada seja inválida, exibe a mensagem e dá continue */
         if(resultado == 0){
-            printf("Jogada inválida na linha %d do arquivo de entrada.\n", numero_linha);
-            continue; 
+            printf("Jogada invalida detectada na linha %d do arquivo.\nFinalizando jogo offline!\n", numero_linha);
+            fclose(arquivo);
+            return;
         }
 
         /* Alterna o turno apenas se não foi captura */
