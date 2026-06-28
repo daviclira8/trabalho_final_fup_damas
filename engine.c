@@ -23,8 +23,8 @@ int validar_jogada(char *entrada, char jogadoratual){
          && entrada[1] >= '0' && entrada[1] <= '9' 
          && entrada[2] == '-' && entrada[3] == '-' 
          && entrada[4] >= 'A' && entrada[4] <= 'J' 
-         && entrada[5] >= '0' && entrada[5] <= '9')) return 0;
-    //convertendo para numero legiveis em uma matriz 10x10;
+         && entrada[5] >= '0' && entrada[5] <= '9')) return 0;// Verificação da sintaxe da entrada, Coordenada de origem a coordenada de destino.
+    //convertendo para numero legiveis em uma matriz 10x10, pois o jogo só acontece em uma matriz 10x10, o resto dos caracteres são apenas visuais do tabuleiro.
     int colin = entrada[0] - 'A';
     int linin = entrada[1] - '0'; 
     int colfim = entrada[4] - 'A';
@@ -74,6 +74,7 @@ int ehposicaovalida(int lin, int col){
     }
     return 0;
 }
+//função que cumpre com o requisito u.5
 void promoverpeca(int lin, int col){
     if(tabuleiro[lin][col] == cima_normal && lin == 9){
         tabuleiro[lin][col] = cima_dama;
@@ -83,7 +84,8 @@ void promoverpeca(int lin, int col){
     }
 }
 
-//função feita para processar jogada por jogada de modo a enxutar a int main
+//função feita para processar jogada por jogada
+//Facilitando, desse modo, a produção dos dois modos de jogo
 int jogada(char* entrada, char jogador){
     int coluna_inicial = entrada[0] - 'A';
     int linha_inicial = entrada[1] - '0';
@@ -132,4 +134,57 @@ int jogada(char* entrada, char jogador){
         promoverpeca(linha_final, coluna_final);
         return 1;
     }    
+}
+/*
+A seguinte função cumprirá com o requisito U.17 precorrendo o tabuleiro procurando peças do jogador informado
+ao encontrar essas peças, checkara as diagonais e as possiveis jogadas.
+*/
+int existe_jogada_valida(char jogador){
+    //lógica muito similar à da funçao captura_possivel
+    //contudo a logica da dama é igual à da peca normal, haja vista que a funcao citada acima já percorre a diagonal toda procurando jogada válida
+    //logo nos resta somente verificar as proximidades
+    int i, j;
+    
+    if(captura_possivel(jogador)) return 1;
+    if(jogador == 'C'){
+        for(i = 0; i < 10; i++){
+            for(j = 0; j < 10; j++){
+                if(tabuleiro[i][j] == cima_normal || tabuleiro[i][j] == cima_dama){
+                    if(tabuleiro[i+1][j+1] == casa_vazia){
+                        return 1;
+                    }
+                    else if(tabuleiro[i+1][j-1] == casa_vazia){
+                        return 1;
+                    }
+                    else if(tabuleiro[i-1][j+1] == casa_vazia){
+                        return 1;
+                    }
+                    else if(tabuleiro[i-1][j-1] == casa_vazia){
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    else{
+        for(i = 0; i < 10; i++){
+            for(j = 0; j < 10; j++){
+                if(tabuleiro[i][j] == baixo_normal || tabuleiro[i][j] == baixo_dama){
+                    if(tabuleiro[i+1][j+1] == casa_vazia){
+                        return 1;
+                    }
+                    else if(tabuleiro[i+1][j-1] == casa_vazia){
+                        return 1;
+                    }
+                    else if(tabuleiro[i-1][j+1] == casa_vazia){
+                        return 1;
+                    }
+                    else if(tabuleiro[i-1][j-1] == casa_vazia){
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
 }
