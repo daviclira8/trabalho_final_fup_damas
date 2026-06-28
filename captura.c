@@ -126,12 +126,15 @@ int captura_possivel(char jogador){
 
 //a seguinte função processara se a jogada eh uma captura
 //ela já é feita considerando que a jogada é uma jogada válida
-//Essa função já processa a captura ao retirar a peça capturada do tabuleiro
 //existe uma lógica para peças normais e uma para damas, haja vista que suas movimentações são diferentes
 //na dama é feito um loop para percorrer a diagonal indicada para validar
 //em peças normais basta checkar as 3 posicoes indicadas
 struct captura jogada_eh_captura(char* jogada){
 
+    /*
+    A função é do tipo struct para poder retornar mais de uma variavel(valor booleano sobre se a jogada informada eh uma captura e as coordenadas da peça inimiga)
+    Ela é desse modo para otimizar o código do jogo, pois caso nao retornasse as coordenadas, na função jogada teria que percorrer a diagonal indicada novamente.
+    */
     int coluna_inicial = jogada[0] - 'A';
     int linha_inicial = jogada[1] - '0';
     int coluna_final = jogada[4] - 'A';
@@ -261,6 +264,3 @@ struct captura jogada_eh_captura(char* jogada){
     }
     return retorno;
 }
-/*
-erro na captura com damas
-*/
