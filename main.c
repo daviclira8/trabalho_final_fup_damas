@@ -109,8 +109,7 @@ int main(int narg, char *argv[]){
 
 
 void modo_offline(const char *entrada){
-    // Definições e variáveis globais assumidas do seu motor de jogo
-    #define TOTAL_PECAS_INICIAL 30
+    // Definições das variáveis
     char linha[256];
     int numero_linha = 0;
     char turno_atual = ' ';
@@ -129,7 +128,7 @@ void modo_offline(const char *entrada){
     if(fgets(linha, sizeof(linha), arquivo) != NULL){ /*Lê a primeira linha para saber quem começa*/
         numero_linha++;
 
-        linha[strcspn(linha, "\r\n")] = 0; /* Remove quebras de linha (\n e \r) */
+        linha[strcspn(linha, "\r\n")] = 0; /* Remove quebras de linha*/
 
         if(strcmp(linha, "C") == 0)
             turno_atual = 'C';
@@ -141,9 +140,6 @@ void modo_offline(const char *entrada){
             return;
         }
     }
-
-    // Opcional: Imprime o tabuleiro inicial se o seu motor exigir
-    // imprimirtabuleiro();
 
     /*Lê todas as linhas de jogadas do arquivo de entrada */
     while(fgets(linha, sizeof(linha), arquivo) != NULL){
@@ -157,14 +153,13 @@ void modo_offline(const char *entrada){
         // Verifica se a jogada é uma captura antes de processar
         captura = jogada_eh_captura(linha).booleano;
 
-        // - Executa a jogada através do motor de jogo
+        // - Executa a jogada com a função jogada
         resultado = jogada(linha, turno_atual);
 
         /* - Caso a jogada seja inválida, exibe a mensagem e dá continue */
         if(resultado == 0){
-            printf("Jogada invalida detectada na linha %d do arquivo.\nFinalizando jogo offline!\n", numero_linha);
-            fclose(arquivo);
-            return;
+            printf("Jogada invalida na linha %d do arquivo de entrada.\n", numero_linha);
+            continue;
         }
 
         /* Alterna o turno apenas se não foi captura */
@@ -182,8 +177,8 @@ void modo_offline(const char *entrada){
     imprimirtabuleiro();
     
     // Calcula as peças capturadas com base no que restou no tabuleiro
-    int capturadas_por_cima = TOTAL_PECAS_INICIAL - pecas_baixo;
-    int capturadas_por_baixo = TOTAL_PECAS_INICIAL - pecas_cima;
+    int capturadas_por_cima = 15 - pecas_baixo;
+    int capturadas_por_baixo = 15 - pecas_cima;
     printf("Cima = %d / Baixo = %d\n", capturadas_por_cima, capturadas_por_baixo);
 
     /* Determina se algum jogador venceu a partida */
