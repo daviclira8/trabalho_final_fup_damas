@@ -147,11 +147,12 @@ int existe_jogada_valida(char jogador){
     int i, j;
     
     if(captura_possivel(jogador)) return 1;
+    
     if(jogador == 'C'){
         for(i = 0; i < 10; i++){
             for(j = 0; j < 10; j++){
-                if(tabuleiro[i][j] = cima_normal || tabuleiro[i][j] = cima_dama){
-                    if(tabuleiro[i][j] = cima_dama){
+                if(tabuleiro[i][j] == cima_normal || tabuleiro[i][j] == cima_dama){
+                    if(tabuleiro[i][j] == cima_dama){
                         if(i + 1 <= 9 && j + 1 <= 9 && tabuleiro[i + 1][j + 1] == casa_vazia){
                             return 1;
                         }
@@ -175,30 +176,37 @@ int existe_jogada_valida(char jogador){
                     }
                 }
             }
-        }else{
-            for(i = 0; i < 10; i++){
-                for(j = 0; j < 10; j++){
-                    if(tabuleiro[i][j] = baixo_dama || tabuleiro[i][j] = baixo_dama){
-                        if(tabuleiro[i][j] = cima_dama){
-                            if(i + 1 <= 9 && j + 1 <= 9 && tabuleiro[i + 1][j + 1] == casa_vazia){
-                            return 1;
-                        }else if(i + 1 <= 9 && j - 1 >= 0 && tabuleiro[i + 1][j - 1] == casa_vazia){
-                            return 1;
-                        }else if(i - 1 >= 0 && j + 1 <= 9 && tabuleiro[i - 1][j + 1] == casa_vazia){
-                            return 1;
-                        }else if(i - 1 >= 0 && j - 1 >= 0 && tabuleiro[i - 1][j - 1] == casa_vazia){
-                            return 1;
-                        }
-                    }else{
+        }
+    }
+    else if(jogador == 'B'){
+        for(i = 0; i < 10; i++){
+            for(j = 0; j < 10; j++){
+                if(tabuleiro[i][j] == baixo_dama || tabuleiro[i][j] == baixo_normal){
+                    if(tabuleiro[i][j] == baixo_dama){
                         if(i + 1 <= 9 && j + 1 <= 9 && tabuleiro[i + 1][j + 1] == casa_vazia){
+                        return 1;
+                        }
+                        else if(((i + 1 < 10) && (j - 1 > -1)) && tabuleiro[i + 1][j - 1] == casa_vazia){
                             return 1;
-                        }else if(i + 1 <= 9 && j - 1 >= 0 && tabuleiro[i + 1][j - 1] == casa_vazia){
+                        }
+                        else if((i - 1 > -1 && j + 1 < 10) && tabuleiro[i - 1][j + 1] == casa_vazia){
+                            return 1;
+                        }
+                        else if((i - 1 > -1 && j - 1 > -1) && tabuleiro[i - 1][j - 1] == casa_vazia){
                             return 1;
                         }
                     }
+                    else{
+                        if((i + 1 < 10 && j + 1 < 10) && tabuleiro[i - 1][j + 1] == casa_vazia){
+                            return 1;
+                        }
+                        else if(((i + 1 < 10) && (j - 1 > -1)) && tabuleiro[i - 1][j - 1] == casa_vazia){
+                            return 1;
+                        }
                     }
-                }
+                }    
             }
         }
+    }
     return 0;
 }
