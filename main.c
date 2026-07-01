@@ -26,6 +26,7 @@ int main(int narg, char *argv[]){
             pecas_cima = 15;
             inicializartabuleiro(tabuleiro);
             jogador = ' ';
+            invalido = 0;
             while(jogador != 'B' && jogador != 'C'){
                 printf("Qual jogador ira comecar jogando?\nSendo B o de baixo e C o de cima\n");
                 scanf(" %c", &jogador);
