@@ -54,7 +54,7 @@ int main(int narg, char *argv[]){
                 }
 
                 printf("Assim esta o tabuleiro atualmente:\n");
-                imprimirtabuleiro();
+                imprimirtabuleiro(tabuleiro);
                 printf("Utilize as letras em maiusculo\n");
                 printf("Lembre-se de utilizar o seguinte formato de entrada: <coluna_inicial><linha_inicial>--<coluna_final><linha_final>\n");
                 printf("O jogador de cima ainda tem %d peca(s)\n", pecas_cima);
@@ -86,7 +86,7 @@ int main(int narg, char *argv[]){
             #else
                 system("clear");
             #endif
-            imprimirtabuleiro();
+            imprimirtabuleiro(tabuleiro);
             if(pecas_baixo == 0){
                 printf("O jogador de Cima foi o vencedor!\n");
                 printf("Caso queiram jogar novamente, digitem 1, caso não queiram digitem 0: ");
@@ -150,6 +150,8 @@ void modo_offline(const char *entrada){
         if(strlen(linha) == 0) /* Ignora linhas vazias */
             continue;
         
+        // Verifica se a jogada é uma captura antes de processar
+        captura = jogada_eh_captura(linha).booleano;
 
         // - Executa a jogada com a função jogada
         resultado = jogada(linha, turno_atual);
@@ -159,17 +161,16 @@ void modo_offline(const char *entrada){
             printf("Jogada invalida na linha %d do arquivo de entrada.\n", numero_linha);
             continue;
         }
-
-        // Verifica se é captura
-        captura = jogada_eh_captura(linha).booleano;
-
-        /* Alterna o turno apenas se não foi captura */
+        else{
+            /* Alterna o turno apenas se não foi captura */
         if(captura == 1){
             // Se foi captura obrigatória realizada com sucesso, o turno continua com o mesmo jogador
             continue; 
         } else {
             turno_atual = (turno_atual == 'B') ? 'C' : 'B';
         }
+        }
+        
     }
 
     fclose(arquivo);
