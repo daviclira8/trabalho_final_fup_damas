@@ -7,6 +7,7 @@ Roger Levi Forte de Brito 601576
 #include <stdio.h>
 #include <stdlib.h>
 #include "tabuleiro.h"
+#include "engine.h"
 
 
 
@@ -27,21 +28,30 @@ int captura_possivel(char jogador){
 
     //teste para o jogador de cima o qual as peças são 'o' e 'O'
     //sendo um tipo de teste para a peça normal e um para a dama haja vista que esta pode andar mais de um bloco de uma vez
+    //dado que a variavel i representa as linhas e j as colunas
     if(jogador == 'C'){
         for(i = 0; i < 10; i++){
             for(j = 0; j < 10; j++){
                 if(tabuleiro[i][j] == 'o'){
                     if((tabuleiro[i+1][j+1] == '@' || tabuleiro[i+1][j+1] == '&') && tabuleiro[i+2][j+2] == ' '){
-                        return 1;
+                        if(ehposicaovalida(i + 1,j + 1) == 1 && ehposicaovalida(i + 2, j + 2) == 1){
+                            return 1;
+                        }
                     }
                     else if((tabuleiro[i+1][j-1] == '@' || tabuleiro[i+1][j-1] == '&') && tabuleiro[i+2][j-2] == ' '){
-                        return 1;
+                        if(ehposicaovalida(i + 1,j - 1) == 1 && ehposicaovalida(i + 2, j - 2) == 1){
+                            return 1;
+                        }
                     }
                     else if((tabuleiro[i-1][j+1] == '@' || tabuleiro[i-1][j+1] == '&') && tabuleiro[i-2][j+2] == ' '){
-                        return 1;
+                        if(ehposicaovalida(i - 1, j + 1) == 1 && ehposicaovalida(i - 2, j + 2) == 1){
+                            return 1;
+                        }
                     }
                     else if((tabuleiro[i-1][j-1] == '@' || tabuleiro[i-1][j-1] == '&') && tabuleiro[i-2][j-2] == ' '){
-                        return 1;
+                        if(ehposicaovalida(i - 1, j - 1) == 1 && ehposicaovalida(i - 2, j - 2) == 1){
+                            return 1;
+                        }
                     }
                 }
                 else if (tabuleiro[i][j] == 'O'){
@@ -80,16 +90,24 @@ int captura_possivel(char jogador){
             for(j = 0; j < 10; j++){
                 if(tabuleiro[i][j] == '@'){
                     if((tabuleiro[i+1][j+1] == 'o' || tabuleiro[i+1][j+1] == 'O') && tabuleiro[i+2][j+2] == ' '){
-                        return 1;
+                        if(ehposicaovalida(i + 1,j + 1) == 1 && ehposicaovalida(i + 2, j + 2) == 1){
+                            return 1;
+                        }
                     }
                     else if((tabuleiro[i+1][j-1] == 'o' || tabuleiro[i+1][j-1] == 'O') && tabuleiro[i+2][j-2] == ' '){
-                        return 1;
+                        if(ehposicaovalida(i + 1,j - 1) == 1 && ehposicaovalida(i + 2, j - 2) == 1){
+                            return 1;
+                        }
                     }
                     else if((tabuleiro[i-1][j+1] == 'o' || tabuleiro[i-1][j+1] == 'O') && tabuleiro[i-2][j+2] == ' '){
-                        return 1;
+                        if(ehposicaovalida(i - 1, j + 1) == 1 && ehposicaovalida(i - 2, j + 2) == 1){
+                            return 1;
+                        }
                     }
                     else if((tabuleiro[i-1][j-1] == 'o' || tabuleiro[i-1][j-1] == 'O') && tabuleiro[i-2][j-2] == ' '){
-                        return 1;
+                        if(ehposicaovalida(i - 1, j - 1) == 1 && ehposicaovalida(i - 2, j - 2) == 1){
+                            return 1;
+                        }
                     }
                 }
                 else if (tabuleiro[i][j] == '&'){

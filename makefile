@@ -13,7 +13,7 @@ main.o: main.c captura.h tabuleiro.h engine.h
 engine.o: engine.c engine.h tabuleiro.h captura.h
 	gcc -Wall -Wextra -std=c99 -c engine.c -o engine.o
 
-captura.o: captura.c captura.h tabuleiro.h
+captura.o: captura.c captura.h tabuleiro.h engine.h
 	gcc -Wall -Wextra -std=c99 -c captura.c -o captura.o
 
 tabuleiro.o: tabuleiro.c tabuleiro.h
