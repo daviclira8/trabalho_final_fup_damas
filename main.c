@@ -152,6 +152,8 @@ void modo_offline(const char *entrada){
         if(strlen(linha) == 0) /* Ignora linhas vazias */
             continue;
         
+        // Verifica se a jogada é uma captura antes de processar
+        captura = jogada_eh_captura(linha).booleano;
 
         // - Executa a jogada com a função jogada
         resultado = jogada(linha, turno_atual);
@@ -161,17 +163,16 @@ void modo_offline(const char *entrada){
             printf("Jogada invalida na linha %d do arquivo de entrada.\n", numero_linha);
             continue;
         }
-
-        // Verifica se é captura
-        captura = jogada_eh_captura(linha).booleano;
-
-        /* Alterna o turno apenas se não foi captura */
+        else{
+            /* Alterna o turno apenas se não foi captura */
         if(captura == 1){
             // Se foi captura obrigatória realizada com sucesso, o turno continua com o mesmo jogador
             continue; 
         } else {
             turno_atual = (turno_atual == 'B') ? 'C' : 'B';
         }
+        }
+        
     }
 
     fclose(arquivo);
