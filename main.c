@@ -105,6 +105,7 @@ int main(int narg, char *argv[]){
             modo_offline(argv[i]);
         }
     }
+    return 0;
 }
 
 
