@@ -67,7 +67,6 @@ mingw32-make
 ```
 
 
-*(Caso o arquivo principal tenha outro nome, substitua `main.c` pelo nome do arquivo correspondente)*.
 3. **Execute o programa:**
 ```bash
 ./damas
