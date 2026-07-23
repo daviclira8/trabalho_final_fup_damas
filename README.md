@@ -88,7 +88,7 @@ mingw32-make
 
 ## 👤 Autor
 
-Desenvolvido por **Davi Lira**, **Roger Levi** e **Felipe Sasaki** como projeto final da disciplina de Fundamentos de Programação.
+Desenvolvido por [**@daviclira8**](https://github.com/daviclira8), [**@rogerflevi9**](https://github.com/rogerflevi9) e [**@fgsasaki**](https://github.com/fgsasaki) como projeto final da disciplina de Fundamentos de Programação.
 
 ---
 
